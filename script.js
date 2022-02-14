@@ -28,7 +28,7 @@ const getElementOrClosest = (sectionClass, target) => {
 }
 
 const limpaListaSugestao = () => {
-  const listaSugestao = document.querySelectorAll('li');
+  const listaSugestao = document.querySelectorAll('.sugestoesDrink');
   for (let index = 0; index < listaSugestao.length; index += 1) {
     const listaOl = document.getElementById('lista-sugestao');
     listaOl.removeChild(listaOl.firstElementChild);
@@ -42,6 +42,7 @@ const insereItemLista = (arrayDrinks) => {
     li.style.color = 'rgb(255, 217, 0)';
     li.style.listStyle = 'none';
     li.style.fontSize = '25px';
+    li.className = 'sugestoesDrink'
     li.innerHTML = element;    
     listaSugestao.appendChild(li);
   });
@@ -79,11 +80,11 @@ const fetchDrink = async () => {
   return data.drinks[0];
 };
 
-const criaIngredientes = async (event) => {
+const criaIngredientes = async () => {
   const objetoDrink = await fetchDrink();
-  for (let index = 0; index <= 15 ; index += 1) {
+  for (let index = 1; index <= 15 ; index += 1) {
     const indexIngrediente = `strIngredient${index}`;
-    const itemDrink = objetoDrink.indexIngrediente;
+    const itemDrink = objetoDrink[indexIngrediente];
     const li = document.createElement('li');
     li.style.listStyle = 'none';
     li.innerHTML = itemDrink;    
@@ -91,14 +92,17 @@ const criaIngredientes = async (event) => {
   }
 };
 
-// const criaDoses = () => {
-//   const objetoDrink = await fetchDrink();
-//   const {  } = objetoDrink;
-//   const li = document.createElement('li');
-//   li.style.listStyle = 'none';
-//   li.innerHTML = element;    
-//   doses.appendChild(li);
-// };
+const criaDoses = async () => {
+  const objetoDrink = await fetchDrink();
+  for (let index = 1; index <= 15 ; index += 1) {
+    const indexMeasure = `strMeasure${index}`;
+    const itemDrink = objetoDrink[indexMeasure];
+    const li = document.createElement('li');
+    li.style.listStyle = 'none';
+    li.innerHTML = itemDrink;    
+    doses.appendChild(li);
+  }
+};
 
 const imprimeReceita = async (event) => {
   event.preventDefault();
@@ -108,7 +112,7 @@ const imprimeReceita = async (event) => {
   imgDrink.src = strDrinkThumb;
   copo.innerText = strGlass;
   criaIngredientes();
-  // criaDoses();
+  criaDoses();
   instrucoes.innerText = strInstructions;
 };
 
